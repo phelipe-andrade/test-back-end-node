@@ -1,25 +1,30 @@
-const mysql = require('../mysql');
+const UniversitySchema = require('../models/UniversitiesModel');
+const mongoose = require('mongoose');
 
 exports.getAllUniversities = async (req, res, next) => {
   try {
-    const result = await mysql.execute('SELECT * FROM produto;');
+    //const result = await   
     const response = {
-      quantidade: result.length,
-      produtos: result.map((prod) => {
-        return {
-          id_produto: prod.id_produto,
-          nome: prod.nome,
-          preco: prod.preco,
-          imagem_produto: prod.imagem_produto,
-          request: {
-            tipo: 'GET',
-            descricao: 'Retorna os detalhes do produto',
-            url: process.env.URL_API + '/produtos/' + prod.id_produto,
-          },
-        };
-      }),
+
+    }
+
+    const allUniversities = [];
+    const collections = Object.keys(mongoose.connection.collections);
+
+    
+    for(let collection of collections){
+      const universitiesByCountryDB = mongoose.model(collection , UniversitySchema);
+      const arrayByCountryDB = await universitiesByCountryDB.find();
+      arrayByCountryDB.forEach((uni)=>{ 
+      const infoUni = {
+        
+      }
+      allUniversities.push();
+    })
+      //allUniversities.push(arrayByCountryDB);
     };
-    return res.status(200).send(response);
+
+    return res.status(200).send(allUniversities);
   } catch (error) {
     return res.status(500).send({ error: error });
   }

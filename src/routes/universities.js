@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const login = require('../middleware/login');
+//const login = require('../middleware/login');
 const universitiesControllers = require('../controllers/universities-controllers');
 
 
@@ -8,20 +8,20 @@ const universitiesControllers = require('../controllers/universities-controllers
 router.get('/', universitiesControllers.getAllUniversities);
 
 // INSERE UM PRODUTO
-router.post(
-  '/',
-  login.obrigatorio,
-  upload.single('produto_imagem'),
-  produtosControllers.postProduto,
-);
+// router.post(
+//   '/',
+//   login.obrigatorio,
+//   upload.single('produto_imagem'),
+//   produtosControllers.postProduto,
+// );
 
-//RETORNA OS DADOS DE UM PRODUTO
-router.get('/:id_produto', produtosControllers.getUmProduto);
+// //RETORNA OS DADOS DE UM PRODUTO
+// router.get('/:id_produto', produtosControllers.getUmProduto);
 
-//ALTERAR UM PRODUTO
-router.patch('/', login.opcional, produtosControllers.alteraProduto);
+// //ALTERAR UM PRODUTO
+// router.patch('/', login.opcional, produtosControllers.alteraProduto);
 
-//EXCLUI UM PRODUTO
-router.delete('/', login.obrigatorio, produtosControllers.deleteProduto);
+// //EXCLUI UM PRODUTO
+// router.delete('/', login.obrigatorio, produtosControllers.deleteProduto);
 
 module.exports = router;

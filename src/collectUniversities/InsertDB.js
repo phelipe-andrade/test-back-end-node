@@ -10,7 +10,6 @@ module.exports = class InsertDB{
     arrayUniDB.forEach((uniDb)=>{
       if(uniDb.name === uniApi.name) this.contain = true; 
     })
-    
     if(!this.contain) this.insertDB(uniApi);
   }
 
