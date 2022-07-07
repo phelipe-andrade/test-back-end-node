@@ -26,7 +26,7 @@ module.exports = class DB{
   async insertDB(uni){
     const { country, domains, web_pages, name, alpha_two_code } = uni;
     const UniversityModel = mongoose.model(uni.country , UniversitySchema);
-    await UniversityModel.create({
+    return await UniversityModel.create({
       country: country,
       domains: domains,
       web_pages: web_pages,
@@ -40,5 +40,11 @@ module.exports = class DB{
     const universityDB = await getById(id);
     const UniversityModel = mongoose.model(universityDB.country , UniversitySchema);
     return await UniversityModel.findByIdAndUpdate(id, body, { new:true })
+  }
+
+  async deleteDB(id){
+    const universityDB = await getById(id);
+    const UniversityModel = mongoose.model(universityDB.country , UniversitySchema);
+    return await UniversityModel.findByIdAndDelete(id);
   }
 }
