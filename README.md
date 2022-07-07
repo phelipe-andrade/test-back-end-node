@@ -2,7 +2,7 @@ Teste Node.js Back-end.
 
 url da aplicação: http://18.230.108.135/universities
 
-* Query params:
+Query params:
 
 - Retorna todas as universidades por pais:
 Ex: http://18.230.108.135/universities?country=brazil
@@ -14,7 +14,7 @@ Ex: http://18.230.108.135/universities?page=NUMERO-DA-PAGINA (Ex: 1, 2, 3...)
 Ex: http://18.230.108.135/universities?country=brazil&page=1
 
 
-* Rotas:
+Rotas:
 
 - GET (sem parâmetros), retorna todas as universidades em uma única página:
 Ex: http://18.230.108.135/universities
@@ -47,7 +47,7 @@ Ex: body: {
  Ex: http://18.230.108.135/universities/62c718b9387029f996bbf5a9
 
 
-* Recursos EXTRAS:
+Recursos EXTRAS:
 
 - Se estiver usando o parâmetro de PAGE, caso tenha preferência, utilize juntamente com ele o LIMIT. Ele altera o limite que pode ser exibido por página (20 por padrão):
 Ex: http://18.230.108.135/universities?country=brazil&page=1&limit=10
