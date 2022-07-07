@@ -61,9 +61,8 @@ exports.postUniversity = async (req, res, next) => {
     const isIncluded = await response.includedInDB();
     if(isIncluded) return res.status(200).send("Universidade já existente.");
 
-    const insert = new DB();
-    const university =  await insert.insertDB(body);
-    const send = {message: "Universidade adicionada com sucesso!", university}
+    const insert = await DB.insertDB(body);
+    const send = {message: "Universidade adicionada com sucesso!", insert}
     return res.status(200).send(send);
 
   } catch (error) {
@@ -77,10 +76,9 @@ exports.putUniversity = async (req, res, next) => {
   if(!body || !id) return res.render('404');
 
   try {
-    const update = new DB();
-    const uniUp = await update.updateDB(body, id);
+    const update = await DB.updateDB(body, id);
 
-    const send = { message: "Universidade atualizada com sucesso!", uniUp}
+    const send = { message: "Universidade atualizada com sucesso!", update}
     return res.status(200).send(send);
 
   } catch (error) {
@@ -88,16 +86,14 @@ exports.putUniversity = async (req, res, next) => {
   }
 }
 
-
 exports.deleteUniversity = async (req, res, next) => {
   const id = req.params.id;
   if(typeof id !== 'string') return res.render('404');
 
   try {
-    const uniDel = new DB();
-    const uniUp = await uniDel.deleteDB(id);
+    const uniDel = await DB.deleteDB(id);
 
-    const send = { message: "Universidade deletada com sucesso!", uniUp}
+    const send = { message: "Universidade deletada com sucesso!", uniDel}
     return res.status(200).send(send);
 
   } catch (error) {
