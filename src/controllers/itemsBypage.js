@@ -17,6 +17,9 @@ exports.universitiesByPage = (result, page, limit) => {
   const maxItems = limit || 20;
   const total = page * maxItems;
 
+  if(result.length < maxItems) return this.allUniversities(result);
+
+
   for(let i = total - maxItems; i < total; i++){
     arrayPage.push(result[i]);
   } 

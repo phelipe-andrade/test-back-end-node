@@ -1,4 +1,4 @@
-const InsertDB = require('../collectUniversities/InsertDB');
+const InsertDB = require('../collectUniversities/DB');
 
 class CheckBody{
   constructor(body){

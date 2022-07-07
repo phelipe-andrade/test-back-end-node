@@ -1,7 +1,7 @@
 const CollectUniversities = require('./CollectUniversities');
 const UniversitySchema = require('../models/UniversitiesModel');
 const mongoose = require('mongoose');
-const InsertDB = require('./InsertDB');
+const DB = require('./DB');
 
 module.exports = async function startCollect(){
   const listCountry = [
@@ -25,7 +25,7 @@ module.exports = async function startCollect(){
 
 
     arrayBycountryApi.forEach((universityApi)=> {
-      const insert = new InsertDB();
+      const insert = new DB();
       const isIncluded = insert.compareDB(universityApi, arrayByCountryDB);
       if(!isIncluded) insert.insertDB(universityApi);
     })

@@ -1,7 +1,7 @@
-const { getAllUniversities, getByCountry, getById } = require('./getInfoDB');
+const { getAllUniversities, getByCountry, getById } = require('../collectUniversities/getInfoDB');
 const { allUniversities, universitiesByPage } = require('./itemsBypage');
 const CheckBody = require('./CheckBody');
-const InsertDB = require('../collectUniversities/InsertDB');
+const DB = require('../collectUniversities/DB');
 
 
 exports.getUniversities = async (req, res, next) => {
@@ -27,9 +27,9 @@ exports.getUniversities = async (req, res, next) => {
 
 exports.getUniversitiesById = async (req, res, next) => {
   const id = req.params.id;
-  console.log(id);
   if(!id) return res.status(400).send('Id inexistente');
   try {
+
     const result = await getById(id);
     if(!result) return res.status(400).send('Id inexistente no banco de dados'); 
     const response = {
@@ -51,7 +51,7 @@ exports.getUniversitiesById = async (req, res, next) => {
 
 exports.postUniversity = async (req, res, next) => {
   const body = req.body;
-  if(!body) return;
+  if(!body) return res.render('404');
 
   try {
     const response = new CheckBody(body);
@@ -61,8 +61,8 @@ exports.postUniversity = async (req, res, next) => {
     const isIncluded = await response.includedInDB();
     if(isIncluded) return res.status(200).send("Universidade já existente.");
 
-    const insert = new InsertDB();
-    insert.insertDB(body);
+    const insert = new DB();
+    await insert.insertDB(body);
     const send = {
       message: "Universidade adicionada com sucesso!",
       university: {
@@ -80,5 +80,31 @@ exports.postUniversity = async (req, res, next) => {
     return res.status(500).send({ error: error });
   }
 }
+
+exports.putUniversity = async (req, res, next) => {
+  const id = req.params.id;
+  const body = req.body;
+  if(!body || !id) return res.render('404');
+
+  try {
+    const update = new DB();
+    const uniUp = await update.updateDB(body, id);
+
+    const send = {
+      message: "Universidade atualizada com sucesso!",
+      university: {
+        name: body.name,
+        domains: body.domains,
+        web_pages: body.web_pages
+      }
+    }
+    return res.status(200).send(uniUp);
+
+  } catch (error) {
+    return res.status(500).send({ error: error });
+  }
+}
+
+
 
 

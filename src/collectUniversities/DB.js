@@ -1,7 +1,8 @@
 const UniversitySchema = require('../models/UniversitiesModel');
 const mongoose = require('mongoose');
+const { getById } = require('./getInfoDB');
 
-module.exports = class InsertDB{
+module.exports = class DB{
   constructor(){
     this.contain = false;
   }
@@ -22,10 +23,10 @@ module.exports = class InsertDB{
     return this.contain;
   }
 
-  insertDB(uni){
+  async insertDB(uni){
     const { country, domains, web_pages, name, alpha_two_code } = uni;
     const UniversityModel = mongoose.model(uni.country , UniversitySchema);
-    UniversityModel.create({
+    await UniversityModel.create({
       country: country,
       domains: domains,
       web_pages: web_pages,
@@ -33,5 +34,11 @@ module.exports = class InsertDB{
       alpha_two_code: alpha_two_code,
       "state-province": uni['state-province'],
     })
+  }
+
+  async updateDB(body, id){
+    const universityDB = await getById(id);
+    const UniversityModel = mongoose.model(universityDB.country , UniversitySchema);
+    return await UniversityModel.findByIdAndUpdate(id, body, { new:true })
   }
 }
