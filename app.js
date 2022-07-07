@@ -13,8 +13,6 @@ mongoose.connect(process.env.CONNECTIONSTRING, { useNewUrlParser: true, useUnifi
   .catch(e => console.log(e));
 
 const routeUniversities = require('./src/routes/universities');
-// const rotaPedidos = require('./routes/pedidos');
-// const rotaUsuarios = require('./routes/usuarios');
 
 app.use(morgan('dev'));
 app.use('/uploads', express.static('uploads'));
@@ -40,8 +38,7 @@ app.use((req, res, next) => {
 });
 
 app.use('/universities', routeUniversities);
-// app.use('/pedidos', rotaPedidos);
-// app.use('/usuarios', rotaUsuarios);
+
 
 //QUANDO NÃO ENCONTRA A ROTA
 app.use((req, res, next) => {
