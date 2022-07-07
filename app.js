@@ -2,7 +2,8 @@ const express = require('express');
 const app = express();
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
-const startCollect = require('./src/collectUniversities/startCollect');
+const StartCollect = require('./src/collectUniversities/StartCollect');
+const schedule = require('node-schedule');
 
 const mongoose = require('mongoose');
 mongoose.connect(process.env.CONNECTIONSTRING, { useNewUrlParser: true, useUnifiedTopology: true })
@@ -56,6 +57,21 @@ app.use((error, req, res, next) => {
   });
 });
 
-app.on('pronto', () => startCollect());
+app.on('pronto', () => {
+  schedule.scheduleJob('00 00 00 * * *', async () =>  {
+    const start = new StartCollect();
+    await start.init();
+  });
+
+  schedule.scheduleJob('00 00 08 * * *', async () =>  {
+    const start = new StartCollect();
+    await start.init();
+  });
+
+  schedule.scheduleJob('00 00 16 * * *', async () =>  {
+    const start = new StartCollect();
+    await start.init();
+  });
+});
 
 module.exports = app;

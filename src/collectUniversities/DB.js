@@ -17,7 +17,7 @@ module.exports = class DB{
 
   compareDB(uniApi, arrayUniDB){
     arrayUniDB.forEach((uniDb)=>{
-      if(uniDb.name === uniApi.name && uniDb['state-province'] === uniApi['state-province']) this.contain = true; 
+      if(uniDb.name === uniApi.name && uniDb['state-province'] === uniApi['state-province']) this.contain = true;
     })
     
     return this.contain;
