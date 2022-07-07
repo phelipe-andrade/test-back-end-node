@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const InsertDB = require('./InsertDB');
 
 module.exports = async function startCollect(){
-  const listUniversities = [
+  const listCountry = [
     "argentina",
     "brazil",
     "chile",
@@ -13,31 +13,21 @@ module.exports = async function startCollect(){
     "peru",
     "suriname",
     "uruguay"
-  ]
-
-  const listUniversitiesOriginal = [
-    "argentina",
-    "brasil",
-    "chile",
-    "colombia",
-    "paraguai",
-    "peru",
-    "suriname",
-    "uruguay"
-  ]
+  ];
 
   
-  for(let university of listUniversities){
-    const universitiesByCountryDB = mongoose.model(university , UniversitySchema);
+  for(let country of listCountry){
+    const universitiesByCountryDB = mongoose.model(country , UniversitySchema);
     const arrayByCountryDB = await universitiesByCountryDB.find();
 
     const univer = new CollectUniversities();
-    const arrayBycountryApi = await univer.getUniversities(university);
+    const arrayBycountryApi = await univer.getUniversities(country);
 
 
     arrayBycountryApi.forEach((universityApi)=> {
       const insert = new InsertDB();
-      insert.compareDB(universityApi, arrayByCountryDB);
+      const isIncluded = insert.compareDB(universityApi, arrayByCountryDB);
+      if(!isIncluded) insert.insertDB(universityApi);
     })
   }
 

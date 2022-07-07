@@ -6,23 +6,32 @@ module.exports = class InsertDB{
     this.contain = false;
   }
 
-  compareDB(uniApi, arrayUniDB){
-    arrayUniDB.forEach((uniDb)=>{
-      if(uniDb.name === uniApi.name) this.contain = true; 
-    })
-    if(!this.contain) this.insertDB(uniApi);
+  async insertUniversity(body){
+    const universitiesByCountryDB = mongoose.model(body.country, UniversitySchema);
+    const arrayByCountryDB = await universitiesByCountryDB.find();
+
+    return this.compareDB(body, arrayByCountryDB);
   }
 
-  insertDB(uniApi){
-    const { country, domains, web_pages, name, alpha_two_code } = uniApi;
-    const UniversityModel = mongoose.model(uniApi.country , UniversitySchema);
+
+  compareDB(uniApi, arrayUniDB){
+    arrayUniDB.forEach((uniDb)=>{
+      if(uniDb.name === uniApi.name && uniDb['state-province'] === uniApi['state-province']) this.contain = true; 
+    })
+    
+    return this.contain;
+  }
+
+  insertDB(uni){
+    const { country, domains, web_pages, name, alpha_two_code } = uni;
+    const UniversityModel = mongoose.model(uni.country , UniversitySchema);
     UniversityModel.create({
       country: country,
       domains: domains,
       web_pages: web_pages,
       name: name,
       alpha_two_code: alpha_two_code,
-      "state-province": uniApi['state-province'],
-    });
+      "state-province": uni['state-province'],
+    })
   }
 }

@@ -26,12 +26,10 @@ exports.getById = async (id) => {
     const universitiesDb = await arrayAllUniversities()
     for(let key in universitiesDb){
       const idDb = universitiesDb[key]._id.valueOf();
-      if(idDb === id) {
-        equal = universitiesDb[key];
-        break;
-      }
+      if(idDb !== id) continue;
+      equal = universitiesDb[key];
+      break;
     }
-    console.log(equal);
     return equal;
   }catch(err){
     console.log(err);
