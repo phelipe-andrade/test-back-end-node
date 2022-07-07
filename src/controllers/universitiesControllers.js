@@ -27,11 +27,11 @@ exports.getUniversities = async (req, res, next) => {
 
 exports.getUniversitiesById = async (req, res, next) => {
   const id = req.params.id;
-  if(!id) return res.status(400).send('Id inexistente');
+  if(!typeof id === 'string') return res.status(400).send('Id inexistente');
   try {
 
     const result = await getById(id);
-    if(!result) return res.status(400).send('Id inexistente no banco de dados'); 
+    if(!result) return res.status(400).send({error: 'Id inexistente no banco de dados'}); 
     const response = {
       university: {
         _id: result._id,
@@ -56,10 +56,10 @@ exports.postUniversity = async (req, res, next) => {
   try {
     const response = new CheckBody(body);
     const result = response.checkFields();
-    if(result) return res.status(200).send(result);
+    if(result) return res.status(200).send({error: result});
 
     const isIncluded = await response.includedInDB();
-    if(isIncluded) return res.status(200).send("Universidade já existente.");
+    if(isIncluded) return res.status(200).send({ error:"Universidade já existente." });
 
     const insert = await DB.insertDB(body);
     const send = {message: "Universidade adicionada com sucesso!", insert}

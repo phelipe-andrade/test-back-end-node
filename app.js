@@ -43,7 +43,7 @@ app.use('/universities', routeUniversities);
 
 //QUANDO NÃO ENCONTRA A ROTA
 app.use((req, res, next) => {
-  const erro = new Error('não encontrado');
+  const erro = new Error('Rota não encontrado');
   erro.status = 404;
   next(erro);
 });
@@ -57,7 +57,10 @@ app.use((error, req, res, next) => {
   });
 });
 
-app.on('pronto', () => {
+app.on('pronto', async () => {
+  const start01 = new StartCollect();
+  await start01.init();
+
   schedule.scheduleJob('00 00 00 * * *', async () =>  {
     const start = new StartCollect();
     await start.init();

@@ -43,6 +43,7 @@ async function arrayAllUniversities(){
 
   for(let collection of collections){
     const universitiesByCountry = mongoose.model(collection , UniversitySchema);
+    console.log(universitiesByCountry);
     const arrayByCountry = await universitiesByCountry.find();
 
     arrayByCountry.forEach((uni)=> allUniversities.push(uni));
